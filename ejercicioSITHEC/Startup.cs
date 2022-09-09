@@ -27,9 +27,10 @@ namespace ejercicioSITHEC
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<EjercicioSITHECContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConexionDB")));
             
             services.AddControllers();
+            services.AddDbContext<EjercicioSITHECContext>(options => options.UseSqlServer(Configuration.GetConnectionString("ConexionDB")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +41,12 @@ namespace ejercicioSITHEC
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(options =>
+            {
+                options.WithOrigins("http://localhost:3000");
+                options.AllowAnyMethod();
+                options.AllowAnyHeader();
+            });
             app.UseHttpsRedirection();
 
             app.UseRouting();
